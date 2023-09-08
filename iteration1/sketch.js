@@ -30,10 +30,10 @@ function preload() {
   fl5 = loadImage("./img/blue-flax.png");
   fl6 = loadImage("./img/candy-tuft.png");
   // fl7 = loadImage("./img/clasping-coneflower.png");
-  // fl8 = loadImage("./img/evening-primrose.png");
+  fl8 = loadImage("./img/evening-primrose.png");
   fl9 = loadImage("./img/indian-blanket.png");
   fl10 = loadImage("./img/indian-paintbrush.png");
-  fl11 = loadImage("./img/showy-primrose.png");
+  // fl11 = loadImage("./img/showy-primrose.png");
   fl12 = loadImage("./img/texas-bluebonnet.png");
   fl13 = loadImage("./img/white-yarrow.png");
 
@@ -66,10 +66,10 @@ function preload() {
     fl5,
     fl6,
     // fl7,
-    // fl8,
+    fl8,
     fl9,
     fl10,
-    fl11,
+    // fl11,
     fl12,
     fl13,
   ];
@@ -87,17 +87,19 @@ function setup() {
 
 // TO DO:
 
-// - better randomized colors
-// - improve grid settings with images
-// - make some borders full (no corner), outer border no corner
-// - make images square
 // - add rotation for corners with https://stackoverflow.com/questions/45388765/how-to-rotate-image-in-p5-js
 // - add rotation for borders too
+
+// - make some borders full (no corner), outer border no corner
+// - make images square?
+// - improve grid settings with images
+
 // - add different patterns in grids (checker, square with dots, diagonal colors)
+// - better randomized colors
 
 function draw() {
   // var numOfLayers = 5;
-  var numOfLayers = floor(random(2, 7, 1));
+  var numOfLayers = floor(random(2, 5, 1));
 
   var layerWidth = width / numOfLayers;
 
@@ -121,7 +123,9 @@ function cornerPattern(layerSize, layerColor) {
   grass = imageData[selectedImageIndex];
   blendMode(ADD);
 
-  image(grass, borderXStart, borderXStart, cornerSize, cornerSize);
+  factor = grass.width / cornerSize;
+
+  image(grass, borderXStart, borderXStart, grass.width * factor, grass.height * factor);
   image(grass, width - borderXStart, borderXStart, cornerSize, cornerSize);
   image(grass, borderXStart, width - borderXStart, cornerSize, cornerSize);
   image(grass, width - borderXStart, width - borderXStart, cornerSize, cornerSize);
