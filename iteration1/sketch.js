@@ -78,24 +78,22 @@ function setup() {
   var canvas = createCanvas(0.98 * windowHeight, 0.98 * windowHeight);
   // var canvas = createCanvas(2000, 2000);
 
-  background(200, 200, 200);
   rectMode(RADIUS);
   ellipseMode(RADIUS);
   imageMode(CENTER);
   blendMode(BLEND);
+  frameRate(1);
 }
 
-// TO DO:
-// - add rotation for corners with https://stackoverflow.com/questions/45388765/how-to-rotate-image-in-p5-js
-// - add rotation for borders too
-
 // TOMORROW:
-// - improve grid settings with images
+// - fix borders corners when no corner pattern or not symmetric
 // - scale to larger sizes
-// - add different patterns in grids (checker, square with dots, diagonal colors)
+// - add different patterns in grids (alternating patterns and sizes, maybe abcabc or ab or aab or something...)
 // - better randomized colors
 
 function draw() {
+  background(200, 200, 200);
+
   // var numOfLayers = 5;
   var numOfLayers = floor(random(1, 4, 1));
 
@@ -115,25 +113,30 @@ function draw() {
       generatedLayer([random(0, 255), random(0, 255), random(0, 255), 100], width - littleGap - layerWidth * i, false, false);
     }
   }
-  noLoop();
+  // noLoop();
 }
 
-function cornerPattern(layerSize, layerColor) {
+function cornerPattern(layerSize, layerColor, noRotation) {
   noStroke();
 
   var borderXStart = (width - layerSize) / 2;
-  var cornerSize = floor(random(30, 60));
+  var cornerSize = floor(random(30, 50));
 
   var selectedImageIndex = floor(random(0, imageData.length - 1));
   var grass = imageData[selectedImageIndex];
   blendMode(ADD);
   var factor = grass.height / cornerSize;
   var angle = 45;
+  var rotationAngle = 90;
+  if (noRotation) {
+    angle = 0;
+    rotationAngle = 0;
+  }
 
-  drawImage(grass, borderXStart, borderXStart, grass.width / factor, grass.height / factor, angle - 90); // top-left
+  drawImage(grass, borderXStart, borderXStart, grass.width / factor, grass.height / factor, angle - rotationAngle); // top-left
   drawImage(grass, width - borderXStart, borderXStart, grass.width / factor, grass.height / factor, angle); // top-right
-  drawImage(grass, width - borderXStart, width - borderXStart, grass.width / factor, grass.height / factor, angle + 90); // bottom-right
-  drawImage(grass, borderXStart, width - borderXStart, grass.width / factor, grass.height / factor, angle + 90 + 90); // bottom-left
+  drawImage(grass, width - borderXStart, width - borderXStart, grass.width / factor, grass.height / factor, angle + rotationAngle); // bottom-right
+  drawImage(grass, borderXStart, width - borderXStart, grass.width / factor, grass.height / factor, angle + rotationAngle + rotationAngle); // bottom-left
 
   blendMode(BLEND);
 }
@@ -146,7 +149,7 @@ function drawImage(imageFile, positionX, positionY, width, height, angle) {
   pop();
 }
 
-function borderPattern(layerSize, isOuter) {
+function borderPattern(layerSize, isOuter, noRotation) {
   noStroke();
   var borderXStart = (width - layerSize) / 2;
 
@@ -164,9 +167,12 @@ function borderPattern(layerSize, isOuter) {
   var grassSize = (5 * dotSize) / 2;
   var factor = grass.height / grassSize;
 
+  var angle = 90;
+  if (noRotation) angle = 0;
+
   // top
   for (let i = 0; i < spacing; i++) {
-    drawImage(grass, borderXStart + gridPadding + i * 2 * dotSize, borderXStart, grass.width / factor, grass.height / factor, 0);
+    drawImage(grass, borderXStart + gridPadding + i * 2 * dotSize, borderXStart, grass.width / factor, grass.height / factor, angle * 0);
   }
 
   // bottom
@@ -177,18 +183,25 @@ function borderPattern(layerSize, isOuter) {
       width - borderXStart,
       grass.width / factor,
       grass.height / factor,
-      90 * 2
+      angle * 2
     );
   }
 
   // right
   for (let i = 0; i < spacing; i++) {
-    drawImage(grass, width - borderXStart, borderXStart + gridPadding + i * 2 * dotSize, grass.width / factor, grass.height / factor, 90);
+    drawImage(
+      grass,
+      width - borderXStart,
+      borderXStart + gridPadding + i * 2 * dotSize,
+      grass.width / factor,
+      grass.height / factor,
+      angle
+    );
   }
 
   // left
   for (let i = 0; i < spacing; i++) {
-    drawImage(grass, borderXStart, borderXStart + gridPadding + i * 2 * dotSize, grass.width / factor, grass.height / factor, 90 * 3);
+    drawImage(grass, borderXStart, borderXStart + gridPadding + i * 2 * dotSize, grass.width / factor, grass.height / factor, angle * 3);
   }
 
   blendMode(BLEND);
@@ -224,15 +237,18 @@ function gridPattern(layerSize) {
   blendMode(BLEND);
 }
 
-function generatedLayer(layerColor, layerSize, isInner, isOuter) {
+function generatedLayer(layerColor, layerSize, isInner, noCorner) {
   fill(layerColor);
   noStroke();
   rect(width / 2, height / 2, layerSize, layerSize);
-  // if (isOuter === false) {
-  //   isOuter = random([true, false]);
-  // }
-  borderPattern(layerSize, isOuter);
-  if (isOuter === false) cornerPattern(layerSize, layerColor);
+  if (noCorner === false) {
+    noCorner = random([true, false]);
+  }
+
+  noRotation = random([true, false]);
+
+  borderPattern(layerSize, noCorner, noRotation);
+  if (noCorner === false) cornerPattern(layerSize, layerColor, noRotation);
 
   if (isInner) {
     gridPattern(layerSize);
