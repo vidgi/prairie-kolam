@@ -86,10 +86,10 @@ function setup() {
 }
 
 // TO DO:
-
 // - add rotation for corners with https://stackoverflow.com/questions/45388765/how-to-rotate-image-in-p5-js
 // - add rotation for borders too
 
+// TOMORROW:
 // - improve grid settings with images
 // - scale to larger sizes
 // - add different patterns in grids (checker, square with dots, diagonal colors)
@@ -97,17 +97,19 @@ function setup() {
 
 function draw() {
   // var numOfLayers = 5;
-  var numOfLayers = floor(random(2, 5, 1));
+  var numOfLayers = floor(random(1, 4, 1));
 
   var layerWidth = width / numOfLayers;
 
+  var littleGap = random(50, 200);
+
   for (let i = 0; i < numOfLayers; i++) {
     if (i === numOfLayers - 1) {
-      generatedLayer([random(0, 255), random(0, 255), random(0, 255), 100], width - 20 - layerWidth * i, true, false);
+      generatedLayer([random(0, 255), random(0, 255), random(0, 255), 100], width - littleGap - layerWidth * i, true, false);
     } else if (i === 0) {
-      generatedLayer([random(0, 255), random(0, 255), random(0, 255), 100], width - 20 - layerWidth * i, false, true);
+      generatedLayer([random(0, 255), random(0, 255), random(0, 255), 100], width - littleGap - layerWidth * i, false, true);
     } else {
-      generatedLayer([random(0, 255), random(0, 255), random(0, 255), 100], width - 20 - layerWidth * i, false, false);
+      generatedLayer([random(0, 255), random(0, 255), random(0, 255), 100], width - littleGap - layerWidth * i, false, false);
     }
   }
   noLoop();
@@ -157,17 +159,17 @@ function borderPattern(layerSize, isOuter) {
 
   // bottom
   for (let i = 0; i < spacing; i++) {
-    image(grass, borderXStart + gridPadding + i * 2 * dotSize, width - borderXStart, (5 * dotSize) / 2, (5 * dotSize) / 2);
+    image(grass, borderXStart + gridPadding + i * 2 * dotSize, width - borderXStart, grass.width / factor, grass.height / factor);
   }
 
   // right
   for (let i = 0; i < spacing; i++) {
-    image(grass, width - borderXStart, borderXStart + gridPadding + i * 2 * dotSize, (5 * dotSize) / 2, (5 * dotSize) / 2);
+    image(grass, width - borderXStart, borderXStart + gridPadding + i * 2 * dotSize, grass.width / factor, grass.height / factor);
   }
 
   // left
   for (let i = 0; i < spacing; i++) {
-    image(grass, borderXStart, borderXStart + gridPadding + i * 2 * dotSize, (5 * dotSize) / 2, (5 * dotSize) / 2);
+    image(grass, borderXStart, borderXStart + gridPadding + i * 2 * dotSize, grass.width / factor, grass.height / factor);
   }
 
   blendMode(BLEND);
