@@ -108,29 +108,13 @@ function draw() {
       generatedLayer([random(0, 255), random(0, 255), random(0, 255), 100], width - 20 - layerWidth * i);
     }
   }
-
-  // // outer layer
-  // generatedLayer([random(0, 255), random(0, 255), random(0, 255), 100], width / 1.2);
-
-  // generatedLayer([random(0, 255), random(0, 255), random(0, 255), 100], width / 1.5);
-
-  // // middle layer
-  // generatedLayer([random(0, 255), random(0, 255), random(0, 255), 100], width / 2.2);
-
-  // // inner layer
-  // generatedLayer([random(0, 255), random(0, 255), random(0, 255), 100], width / 2.7, true);
   noLoop();
 }
 
 function cornerPattern(layerSize, layerColor) {
   noStroke();
-  stroke(0);
 
   var borderXStart = (width - layerSize) / 2;
-
-  strokeWeight(0.5);
-  fill([random(100, 255), random(0, 120), random(0, 120), 255]);
-  // fill(layerColor);
   var cornerSize = floor(random(20, 50));
 
   selectedImageIndex = floor(random(0, imageData.length - 1));
@@ -142,27 +126,16 @@ function cornerPattern(layerSize, layerColor) {
   image(grass, borderXStart, width - borderXStart, cornerSize, cornerSize);
   image(grass, width - borderXStart, width - borderXStart, cornerSize, cornerSize);
   blendMode(BLEND);
-
-  // rect(borderXStart, borderXStart, cornerSize, cornerSize);
-  // rect(width - borderXStart, borderXStart, cornerSize, cornerSize);
-  // rect(borderXStart, width - borderXStart, cornerSize, cornerSize);
-  // rect(width - borderXStart, width - borderXStart, cornerSize, cornerSize);
 }
 
 function borderPattern(layerSize) {
   noStroke();
-  stroke(0);
-
-  strokeWeight(0.5);
-  fill([random(100, 200), random(100, 200), random(100, 200), 255]);
-
   var borderXStart = (width - layerSize) / 2;
 
   var dotSize = floor(random(2, 10));
   var gridPadding = dotSize * 5;
   var borderlength = layerSize - 2 * gridPadding;
 
-  // var dotSize = 5;
   selectedImageIndex = floor(random(0, imageData.length - 1));
   grass = imageData[selectedImageIndex];
 
@@ -171,31 +144,23 @@ function borderPattern(layerSize) {
   blendMode(ADD);
 
   // top
-
   for (let i = 0; i < spacing; i++) {
     image(grass, borderXStart + gridPadding + i * 2 * dotSize, borderXStart, (5 * dotSize) / 2, (5 * dotSize) / 2);
-    // ellipse(borderXStart + gridPadding + i * 2 * dotSize, borderXStart, dotSize / 2, dotSize / 2);
   }
 
   // bottom
   for (let i = 0; i < spacing; i++) {
     image(grass, borderXStart + gridPadding + i * 2 * dotSize, width - borderXStart, (5 * dotSize) / 2, (5 * dotSize) / 2);
-
-    // ellipse(borderXStart + gridPadding + i * 2 * dotSize, width - borderXStart, dotSize / 2, dotSize / 2);
   }
 
   // right
   for (let i = 0; i < spacing; i++) {
     image(grass, width - borderXStart, borderXStart + gridPadding + i * 2 * dotSize, (5 * dotSize) / 2, (5 * dotSize) / 2);
-
-    // ellipse(width - borderXStart, borderXStart + gridPadding + i * 2 * dotSize, dotSize / 2, dotSize / 2);
   }
 
   // left
   for (let i = 0; i < spacing; i++) {
     image(grass, borderXStart, borderXStart + gridPadding + i * 2 * dotSize, (5 * dotSize) / 2, (5 * dotSize) / 2);
-
-    // ellipse(borderXStart, borderXStart + gridPadding + i * 2 * dotSize, dotSize / 2, dotSize / 2);
   }
 
   blendMode(BLEND);
@@ -203,10 +168,6 @@ function borderPattern(layerSize) {
 
 function gridPattern(layerSize) {
   noStroke();
-  stroke(0);
-
-  strokeWeight(0.5);
-  fill([random(0, 120), random(0, 120), random(0, 120), 255]);
   var borderXStart = (width - layerSize) / 2;
   var dotSize = floor(random(3, 7));
   var gridPadding = dotSize * 10;
@@ -214,6 +175,7 @@ function gridPattern(layerSize) {
   selectedImageIndex = floor(random(0, imageData.length - 1));
   grass = imageData[selectedImageIndex];
   var spacing = borderlength / (2 * dotSize);
+
   // top
   blendMode(ADD);
 
@@ -226,8 +188,6 @@ function gridPattern(layerSize) {
         (5 * dotSize) / 2,
         (5 * dotSize) / 2
       );
-
-      // ellipse(borderXStart + gridPadding + i * 2 * dotSize, borderXStart + gridPadding + j * 2 * dotSize, dotSize / 2, dotSize / 2);
     }
   }
   blendMode(BLEND);
