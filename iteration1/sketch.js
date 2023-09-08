@@ -90,10 +90,8 @@ function setup() {
 // - add rotation for corners with https://stackoverflow.com/questions/45388765/how-to-rotate-image-in-p5-js
 // - add rotation for borders too
 
-// - make some borders full (no corner), outer border no corner
-// - make images square?
 // - improve grid settings with images
-
+// - scale to larger sizes
 // - add different patterns in grids (checker, square with dots, diagonal colors)
 // - better randomized colors
 
@@ -105,9 +103,11 @@ function draw() {
 
   for (let i = 0; i < numOfLayers; i++) {
     if (i === numOfLayers - 1) {
-      generatedLayer([random(0, 255), random(0, 255), random(0, 255), 100], width - 20 - layerWidth * i, true);
+      generatedLayer([random(0, 255), random(0, 255), random(0, 255), 100], width - 20 - layerWidth * i, true, false);
+    } else if (i === 0) {
+      generatedLayer([random(0, 255), random(0, 255), random(0, 255), 100], width - 20 - layerWidth * i, false, true);
     } else {
-      generatedLayer([random(0, 255), random(0, 255), random(0, 255), 100], width - 20 - layerWidth * i);
+      generatedLayer([random(0, 255), random(0, 255), random(0, 255), 100], width - 20 - layerWidth * i, false, false);
     }
   }
   noLoop();
@@ -123,21 +123,22 @@ function cornerPattern(layerSize, layerColor) {
   grass = imageData[selectedImageIndex];
   blendMode(ADD);
 
-  factor = grass.width / cornerSize;
+  factor = grass.height / cornerSize;
 
-  image(grass, borderXStart, borderXStart, grass.width * factor, grass.height * factor);
-  image(grass, width - borderXStart, borderXStart, cornerSize, cornerSize);
-  image(grass, borderXStart, width - borderXStart, cornerSize, cornerSize);
-  image(grass, width - borderXStart, width - borderXStart, cornerSize, cornerSize);
+  image(grass, borderXStart, borderXStart, grass.width / factor, grass.height / factor);
+  image(grass, width - borderXStart, borderXStart, grass.width / factor, grass.height / factor);
+  image(grass, borderXStart, width - borderXStart, grass.width / factor, grass.height / factor);
+  image(grass, width - borderXStart, width - borderXStart, grass.width / factor, grass.height / factor);
   blendMode(BLEND);
 }
 
-function borderPattern(layerSize) {
+function borderPattern(layerSize, isOuter) {
   noStroke();
   var borderXStart = (width - layerSize) / 2;
 
   var dotSize = floor(random(2, 10));
   var gridPadding = dotSize * 5;
+  if (isOuter) gridPadding = 0;
   var borderlength = layerSize - 2 * gridPadding;
 
   selectedImageIndex = floor(random(0, imageData.length - 1));
@@ -146,10 +147,12 @@ function borderPattern(layerSize) {
   var spacing = borderlength / (2 * dotSize);
 
   blendMode(ADD);
+  grassSize = (5 * dotSize) / 2;
+  factor = grass.height / grassSize;
 
   // top
   for (let i = 0; i < spacing; i++) {
-    image(grass, borderXStart + gridPadding + i * 2 * dotSize, borderXStart, (5 * dotSize) / 2, (5 * dotSize) / 2);
+    image(grass, borderXStart + gridPadding + i * 2 * dotSize, borderXStart, grass.width / factor, grass.height / factor);
   }
 
   // bottom
@@ -180,6 +183,9 @@ function gridPattern(layerSize) {
   grass = imageData[selectedImageIndex];
   var spacing = borderlength / (2 * dotSize);
 
+  grassSize = (5 * dotSize) / 2;
+  factor = grass.height / grassSize;
+
   // top
   blendMode(ADD);
 
@@ -189,20 +195,23 @@ function gridPattern(layerSize) {
         grass,
         borderXStart + gridPadding + i * 2 * dotSize,
         borderXStart + gridPadding + j * 2 * dotSize,
-        (5 * dotSize) / 2,
-        (5 * dotSize) / 2
+        grass.width / factor,
+        grass.height / factor
       );
     }
   }
   blendMode(BLEND);
 }
 
-function generatedLayer(layerColor, layerSize, isInner) {
+function generatedLayer(layerColor, layerSize, isInner, isOuter) {
   fill(layerColor);
   noStroke();
   rect(width / 2, height / 2, layerSize, layerSize);
-  borderPattern(layerSize);
-  cornerPattern(layerSize, layerColor);
+  if (isOuter === false) {
+    isOuter = random([true, false]);
+  }
+  borderPattern(layerSize, isOuter);
+  if (isOuter === false) cornerPattern(layerSize, layerColor);
 
   if (isInner) {
     gridPattern(layerSize);
