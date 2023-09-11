@@ -75,31 +75,31 @@ function preload() {
   ];
 }
 function setup() {
-  var canvas = createCanvas(0.98 * windowHeight, 0.98 * windowHeight);
-  // var canvas = createCanvas(2000, 2000);
+  // var canvas = createCanvas(0.98 * windowHeight, 0.98 * windowHeight);
+  var canvas = createCanvas(6000, 6000);
 
   rectMode(RADIUS);
   ellipseMode(RADIUS);
   imageMode(CENTER);
   blendMode(BLEND);
-  frameRate(1);
+  frameRate(5);
 }
 
-// TOMORROW:
+// TODO:
 // - fix borders corners when no corner pattern or not symmetric
-// - scale to larger sizes
 // - add different patterns in grids (alternating patterns and sizes, maybe abcabc or ab or aab or something...)
 // - better randomized colors
 
+var count = 0;
 function draw() {
   background(200, 200, 200);
 
   // var numOfLayers = 5;
-  var numOfLayers = floor(random(1, 4, 1));
+  var numOfLayers = floor(random(1, 5, 1));
 
   var layerWidth = width / numOfLayers;
 
-  var littleGap = random(50, 200);
+  var littleGap = random(200, 500);
 
   for (let i = 0; i < numOfLayers; i++) {
     if (i === numOfLayers - 1) {
@@ -113,14 +113,21 @@ function draw() {
       generatedLayer([random(0, 255), random(0, 255), random(0, 255), 100], width - littleGap - layerWidth * i, false, false);
     }
   }
-  // noLoop();
+
+  // count += 1;
+  // saveCanvas("design-" + count, "jpg");
+
+  // if (count > 100) {
+  //   noLoop();
+  // }
+  noLoop();
 }
 
 function cornerPattern(layerSize, layerColor, noRotation) {
   noStroke();
 
   var borderXStart = (width - layerSize) / 2;
-  var cornerSize = floor(random(30, 50));
+  var cornerSize = floor(random(300, 500));
 
   var selectedImageIndex = floor(random(0, imageData.length - 1));
   var grass = imageData[selectedImageIndex];
@@ -153,7 +160,7 @@ function borderPattern(layerSize, isOuter, noRotation) {
   noStroke();
   var borderXStart = (width - layerSize) / 2;
 
-  var dotSize = floor(random(2, 10));
+  var dotSize = floor(random(20, 100));
   var gridPadding = dotSize * 5;
   if (isOuter) gridPadding = 0;
   var borderlength = layerSize - 2 * gridPadding;
@@ -210,7 +217,7 @@ function borderPattern(layerSize, isOuter, noRotation) {
 function gridPattern(layerSize) {
   noStroke();
   var borderXStart = (width - layerSize) / 2;
-  var dotSize = floor(random(3, 7));
+  var dotSize = floor(random(30, 70));
   var gridPadding = dotSize * 10;
   var borderlength = layerSize - 2 * gridPadding;
   var selectedImageIndex = floor(random(0, imageData.length - 1));
