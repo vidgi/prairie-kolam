@@ -99,7 +99,7 @@ function draw() {
 
   var layerWidth = width / numOfLayers;
 
-  var littleGap = random(200, 500);
+  var littleGap = random(500, 700);
 
   for (let i = 0; i < numOfLayers; i++) {
     if (i === numOfLayers - 1) {
@@ -125,7 +125,6 @@ function draw() {
 
 function cornerPattern(layerSize, layerColor, noRotation) {
   noStroke();
-
   var borderXStart = (width - layerSize) / 2;
   var cornerSize = floor(random(300, 500));
 
@@ -161,8 +160,8 @@ function borderPattern(layerSize, isOuter, noRotation) {
   var borderXStart = (width - layerSize) / 2;
 
   var dotSize = floor(random(20, 100));
-  var gridPadding = dotSize * 5;
-  if (isOuter) gridPadding = 0;
+  var gridPadding = 500;
+  if (isOuter) gridPadding = dotSize * 1.5;
   var borderlength = layerSize - 2 * gridPadding;
 
   var selectedImageIndex = floor(random(0, imageData.length - 1));
