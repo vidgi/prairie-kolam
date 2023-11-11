@@ -8,7 +8,7 @@ In this experiment, I have developed a fabric algorithm to generate patterns ins
 
 At the moment the code/project is still a work in progress and on the simpler side, but I am happy to share the start of where I am with this!
 
-[Read about the algorithm here](https://alpaca.pubpub.org/pub/cvr7kjj6/draft?access=sqfpq5t4) to learn more about the context which I have written up for [Algorithmic Pattern](https://algorithmicpattern.org/)
+[Read about the algorithm here](https://alpaca.pubpub.org/pub/prairie-patterns) to learn more about the context which I have written up for [Algorithmic Pattern](https://algorithmicpattern.org/)
 
 I also made a [visualization/website to showcase some of the generated patterns](https://vidyagiri.com/patchworked/) :)
 
