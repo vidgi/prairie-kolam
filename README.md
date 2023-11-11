@@ -8,7 +8,7 @@ In this experiment, I have developed a fabric algorithm to generate patterns ins
 
 At the moment the code/project is still a work in progress and on the simpler side, but I am happy to share the start of where I am with this!
 
-[Read about the algorithm here](https://alpaca.pubpub.org/pub/cvr7kjj6/draft?access=sqfpq5t4) to learn more about the context which I have written up for [Algorithmic Pattern](https://algorithmicpattern.org/):
+[Read about the algorithm here](https://alpaca.pubpub.org/pub/cvr7kjj6/draft?access=sqfpq5t4) to learn more about the context which I have written up for [Algorithmic Pattern](https://algorithmicpattern.org/)
 
 I also made a [visualization/website to showcase some of the generated patterns](https://vidyagiri.com/patchworked/) :)
 
@@ -19,4 +19,20 @@ I also made a [visualization/website to showcase some of the generated patterns]
 - develop more options for non-square and non-symmetric patterns with more intricacy (sari designs, other textiles)
 - simulate the draping of the fabric in visualization
 
+### references:
 
+libraries:
+- p5.js (for pattern generation and loading in my sketches/assets)
+- r3f/three.js/drei (for rendering 3d visualization!)
+
+grass texture background was adapted from these (+ my own alpha for the grass blades):
+- https://codepen.io/al-ro/pen/GRJzYQK
+- https://codesandbox.io/s/rtf-grass-grrsb
+
+research references:
+- Bogansky, A. E. (2013). Interwoven globe: the worldwide textile trade, 1500-1800 (p. 104). A. Peck (Ed.). New York: Metropolitan Museum of Art.
+- https://museum.gwu.edu/selections-textile-museum-collection
+- Guy, J., Crill, R., & Thakar, K. (2021). Indian Textiles.
+- https://artsandculture.google.com/story/indian-textiles-nature-making-victoria-and-albert-museum/YAUROUQuPAXOJw?hl=en
+- https://craftatlas.co/crafts/bagh-print
+- https://craftatlas.co/crafts/kalamkari
